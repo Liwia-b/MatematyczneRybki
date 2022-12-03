@@ -11,6 +11,7 @@ namespace Matematyczne_Rybki
     {
         public int x, y;
         public PictureBox Rybka;
+        public Label Rownanie;
         private Gra main;
 
         public Rybki(Gra main, string img, int x, int y)
@@ -18,16 +19,25 @@ namespace Matematyczne_Rybki
             this.main = main;
             this.x = x;
             this.y = y;
-
-            Random rnd = new Random();
-            int num = rnd.Next(400);
+            int zoomFactor = 2;
 
             Rybka = new PictureBox();
+            Rownanie = new Label();
+            
+            Rownanie.Text = "60*(400+200)";
+            Rownanie.BackColor = Color.White;
+            Rownanie.AutoSize = true;
             Rybka.Image = Image.FromFile(img);
-            Rybka.SizeMode = PictureBoxSizeMode.Zoom;
+
+            Rybka.Size = new Size(Rybka.Image.Width / zoomFactor, Rybka.Image.Height / zoomFactor);
+            Rybka.SizeMode = PictureBoxSizeMode.StretchImage;
             Rybka.BackColor = Color.Transparent;
-            Rybka.Location = new Point(x-num, y-num);
+            
+            Rybka.Location = new Point(x, y);
+            Rownanie.Location = new Point(Rybka.Location.X+Rybka.Size.Width/3, y+75);
             main.Paint += new System.Windows.Forms.PaintEventHandler(paint);
+            main.Controls.Add(Rownanie);
+            
         }
 
         // rysowanie rybki
