@@ -1,9 +1,0 @@
-namespace MatematyczneRybki
-{
-    class Rybki {         
-        static void Main(string[] args)
-        {
-            
-        }
-    }
-}
