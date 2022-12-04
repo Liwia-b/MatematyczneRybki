@@ -20,7 +20,7 @@ namespace Matematyczne_Rybki
             wynik = 0;
             poziom = 1;
             pieniadze = 0;
-            rybkaGracza = 0;
+            rybkaGracza = 1;
         }
 
     }
