@@ -1,5 +1,7 @@
+using Microsoft.VisualBasic.Devices;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices;
@@ -58,11 +60,12 @@ namespace Matematyczne_Rybki
             int YnaRybke = miejsceY / iloscRybek;
             
             rybki = new Rybki[iloscRybek];
-            for (int i = 0; i < iloscRybek; i++)
+            rybki[0] = new Rybki(this, ("../../../Zasoby/Rybki/" + s.rybkaGracza + ".png"), pozycjaX(0, XnaRybke), pozycjaY(0, YnaRybke));
+            rybki[0].Rownanie.ForeColor = Color.Red;
+            for (int i = 1; i < iloscRybek; i++)
             {
                 Random rnd = new Random();
                 rybki[i] = new Rybki(this, ("../../../Zasoby/Rybki/" + rnd.Next(1,17).ToString() + ".png"), pozycjaX(i, XnaRybke), pozycjaY(i, YnaRybke));
-                rybki[0].Rownanie.ForeColor = Color.Red;
             }
             
         }
@@ -201,6 +204,12 @@ namespace Matematyczne_Rybki
         private void pictureBox1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void Gra_MouseDown(object sender, MouseEventArgs e)
+        {
+            rybki[0].x = Cursor.Position.X-rozmiarX/2;
+            rybki[0].y = Cursor.Position.Y-125;
         }
 
         private void pictureBox2_Click(object sender, EventArgs e)
