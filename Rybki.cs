@@ -9,10 +9,14 @@ namespace Matematyczne_Rybki
 
     public class Rybki
     {
-        public int x, y;
+
+        public int x, y, ySin;
         public PictureBox Rybka;
         public Label Rownanie;
         private Gra main;
+
+        public bool prawo;
+        public int predkoscRybek = 2;
 
         public Rybki(Gra main, string img, int x, int y)
         {
@@ -23,21 +27,82 @@ namespace Matematyczne_Rybki
 
             Rybka = new PictureBox();
             Rownanie = new Label();
+
+            Random rnd = new Random();
             
-            Rownanie.Text = "60*(400+200)";
+            Rownanie.Text = rnd.Next(20,100).ToString();
             Rownanie.BackColor = Color.White;
             Rownanie.AutoSize = true;
+            Rownanie.Visible = false;
+
+            
             Rybka.Image = Image.FromFile(img);
 
             Rybka.Size = new Size(Rybka.Image.Width / zoomFactor, Rybka.Image.Height / zoomFactor);
             Rybka.SizeMode = PictureBoxSizeMode.StretchImage;
             Rybka.BackColor = Color.Transparent;
-            
+
+            y = (int)(y + Math.Sin(x / 100.0) * 150);
             Rybka.Location = new Point(x, y);
-            Rownanie.Location = new Point(Rybka.Location.X+Rybka.Size.Width/3, y+75);
+            Rownanie.Location = new Point(Rybka.Location.X+Rybka.Size.Width/5, y+75);
             main.Paint += new System.Windows.Forms.PaintEventHandler(paint);
             main.Controls.Add(Rownanie);
             
+        }
+        
+        public void animacjaGracza(int innaRybka)
+        {
+            
+            ySin = (int)(y + Math.Sin(innaRybka / 100.0) * 50);
+            if (ySin > main.Height - Rybka.Size.Height)
+                ySin = main.Height - Rybka.Size.Height;
+
+            if (ySin < 0) ySin = 0;
+
+            Rownanie.Location = new Point(x + Rybka.Size.Width / 6, ySin + 75);
+            Rybka.Location = new Point(x, ySin);
+        }
+
+        public void animacjaRybek()
+        {
+            if (prawo)
+            {
+                x += predkoscRybek;
+            }
+            else
+            {
+                x -= predkoscRybek;
+            }
+
+            if (x > main.Width - Rybka.Size.Width)
+            {
+                x = main.Width - Rybka.Size.Width;
+                Image nowaRybka = Rybka.Image;
+                nowaRybka.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                Rybka.Image = nowaRybka;
+                prawo = false;
+            }
+            
+            if (x <= 0)
+            {
+                x = 0;
+                Image tmp = Rybka.Image;
+                tmp.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                Rybka.Image = tmp;
+                prawo = true;
+            }
+
+            ySin = (int)(y + Math.Sin(x / 100.0) * 150);
+            if (ySin > main.Height - Rybka.Size.Height) 
+                ySin = main.Height - Rybka.Size.Height;
+            
+            if (ySin < 0) ySin = 0;
+
+            Rownanie.Invalidate();
+            Rownanie.Location = new Point(x + Rybka.Size.Width / 6, ySin + 75);
+            
+            Rybka.Location = new Point(x, ySin);
+            main.Invalidate();
         }
 
         // rysowanie rybki
@@ -45,7 +110,7 @@ namespace Matematyczne_Rybki
         {
             e.Graphics.DrawImage(Rybka.Image, Rybka.Left, Rybka.Top, Rybka.Width, Rybka.Height);
         }
-
+        
     }
     
 }
