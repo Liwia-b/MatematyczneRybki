@@ -36,6 +36,9 @@ namespace Matematyczne_Rybki
         public Gra()
         {
             InitializeComponent();
+           
+            System.Media.SoundPlayer player = new System.Media.SoundPlayer("../../../Zasoby/Muzyka/audio.wav");
+            player.PlayLooping();
 
             rozmiarX = this.Width;
             rozmiarY = this.Height;
