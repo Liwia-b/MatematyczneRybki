@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualBasic.Devices;
+using Microsoft.VisualBasic.Devices;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -15,20 +15,23 @@ namespace Matematyczne_Rybki
 
         //timer
         private System.Timers.Timer t;
-        private bool stop = true;
-        private bool boot = true;
 
-        //przegrana
+        //stany gry
         private bool przegrana = false;
 
         //rozmiar okna
-        private int rozmiarX, rozmiarY;
+        public static int rozmiaroknaX = 1024;
+        public static int rozmiaroknaY = 768;
         private int border = 150;
 
+        //menu
+        menu menugry;
+        private bool gameover = true;
 
         //rybki
         private Rybki[] rybki;
-        private static int iloscRybek = 6;
+        private static int maxiloscRybek = 16;
+        private int iloscRybek = 3;
         
         //statystyki
         private Statystyki s;
@@ -36,51 +39,59 @@ namespace Matematyczne_Rybki
         public Gra()
         {
             InitializeComponent();
-           
-            System.Media.SoundPlayer player = new System.Media.SoundPlayer("../../../Zasoby/Muzyka/audio.wav");
-            player.PlayLooping();
-
-            rozmiarX = this.Width;
-            rozmiarY = this.Height;
-
-            s = new Statystyki();
-            progressBar.Step = -1;
-            restart();
-
-            t = new System.Timers.Timer();
-            t.Interval = 1000; // jedna sekunda
-            t.Start();
-            stop = false;
+            inicjalizacjaGry();
 
             t.Elapsed += zegar;
             Application.Idle += petlaGry;
+        }
 
-            // tworzy nowe rybki
-            int miejsceX = rozmiarX - 2 * border;
-            int miejsceY = rozmiarY - 2 * border;
-            int XnaRybke = miejsceX / iloscRybek;
-            int YnaRybke = miejsceY / iloscRybek;
+        private void inicjalizacjaGry()
+        {
+            // tworzy menu
+            menugry = new menu(this);
 
-            rybki = new Rybki[iloscRybek];
-            rybki[0] = new Rybki(this, ("../../../Zasoby/Rybki/" + s.rybkaGracza + ".png"), pozycjaX(0, XnaRybke), pozycjaY(0, YnaRybke));
+            // dodaje muzyke
+            System.Media.SoundPlayer player = new System.Media.SoundPlayer("../../../Zasoby/Muzyka/audio.wav");
+            player.PlayLooping();
+
+            // tworzy nowy profil gracza
+            s = new Statystyki();
+
+            // timer
+            t = new System.Timers.Timer();
+            t.Interval = 1000; // jedna sekunda
+
+            //// RYBKI -------------------------
+            // tworzy tablice rybek
+            rybki = new Rybki[maxiloscRybek];
+
+            // liczy miejsce na rybki
+            int miejsceX = rozmiaroknaX - 2 * border;
+            int miejsceY = rozmiaroknaY - 2 * border;
+            int XnaRybke = miejsceX / maxiloscRybek;
+            int YnaRybke = miejsceY / maxiloscRybek;
+
+            // tworzy rybke gracza
+            rybki[0] = new Rybki(this, ("../../../Zasoby/Rybki/" + s.rybkaGracza + ".png"), losowaLiczba(border, (rozmiaroknaX - border)), losowaLiczba(border, (rozmiaroknaY - border)));
             rybki[0].Rownanie.ForeColor = Color.Red;
-            for (int i = 1; i < iloscRybek; i++)
+            
+            // tworzy wszystkie rybki
+            for (int i = 1; i < maxiloscRybek; i++)
             {
-                Random rnd = new Random();
-                rybki[i] = new Rybki(this, ("../../../Zasoby/Rybki/" + rnd.Next(1, 17).ToString() + ".png"), pozycjaX(i, XnaRybke), pozycjaY(i, YnaRybke));
+                rybki[i] = new Rybki(this, ("../../../Zasoby/Rybki/" + losowyObrazekRybki().ToString() + ".png"), losowaLiczba(border, (rozmiaroknaX - border)), losowaLiczba(border, (rozmiaroknaY - border)));
+                rybki[i].Rownanie.Visible = false;
             }
-
         }
 
         private void zegar(object sender, System.Timers.ElapsedEventArgs e)
         {
             Invoke(new Action(() =>
             {
-                s.czas--;
+                s.czasAktualny--;
 
-                if (s.czas < 0)
+                if (s.czasAktualny < 0)
                 {
-                    s.czas = 0;
+                    s.czasAktualny = 0;
                     przegrana = true;
                 }
 
@@ -89,103 +100,174 @@ namespace Matematyczne_Rybki
                     t.Stop();
                 }
 
-                progressBar.PerformStep();
-                labelCzas.Text = "Czas: " + s.czas.ToString();
+                menugry.zaktualizujCzas(s.czasAktualny, s.czasUstawiony);
             }));
         }
 
         private void petlaGry(object sender, EventArgs e)
         {
+            // jezeli gracz przegral to gra sie konczy
             if (przegrana)
             {
                 t.Stop();
-                MessageBox.Show("Przegra�e�!");
+                MessageBox.Show("Przegrana!");
                 Application.ExitThread();
             }
 
-            while (IsApplicationIdle() && !przegrana)
+            while (IsApplicationIdle())
             {
-                if (!stop)
-                    for (int i = 1; i < iloscRybek; i++)
-                    {
-                        rybki[i].animacjaRybek();
-                    }
-                rybki[0].animacjaGracza(rybki[1].x);
-                if (boot)
+                // animacje rybek
+                if (rybki[0].Rybka.Visible == true)
                 {
-                    t.Stop();
-                    for (int i = 0; i < iloscRybek; i++)
+                    rybki[0].animacjaGracza(rybki[1].x);
+                    for (int i = 1; i < maxiloscRybek; i++)
                     {
-                        rybki[i].Rownanie.Visible = false;
+                        if (rybki[i].Rybka.Visible == true)
+                        {
+                            rybki[i].animacjaRybek();
+                        }
                     }
-                    stop = true;
-                    start.Text = "start";
-                    boot = false;
                 }
+
             }
 
 
         }
 
-        private void restart()
+        private void rozpocznijGre()
         {
-            labelCzas.Text = "Czas: " + s.czas.ToString();
-            progressBar.Maximum = s.czas;
-            progressBar.Value = s.czas;
+            t.Start();
+            pokazRybki();
         }
 
-        private int pozycjaX(int ktoraRybka, int XnaRybke)
+        private void zatrzymajGre()
         {
-            Random rnd = new Random();
-            int pozycja = rnd.Next(border, rozmiarX - border);
-            return pozycja;
+            schowajRybki();
+            t.Stop();
         }
 
-        private int pozycjaY(int ktoraRybka, int YnaRybke)
+        private void restartGry()
         {
-            Random rnd = new Random();
-            int pozycja = rnd.Next(border, (rozmiarY - border));
-            return pozycja;
+            s.poziomAktualny = 1;
+            rozpocznijGre();
+        }
+
+        private void przegranaGracza()
+        {
+            
         }
 
         private void start_Click(object sender, EventArgs e)
         {
-            if (stop)
+            startprzycisk.Visible = false;
+            menugry.widoczne = true;
+            tytul.Visible = false;
+
+            for (int i = 0; i < maxiloscRybek; i++)
             {
-                t.Start();
-                stop = false;
-                for (int i = 0; i < iloscRybek; i++)
-                {
-                    rybki[i].Rownanie.Visible = true;
-                }
-                start.Text = "stop";
+                rybki[i].Rownanie.Visible = true;
             }
-            else
-            {
-                t.Stop();
-                for (int i = 0; i < iloscRybek; i++)
-                {
-                    rybki[i].Rownanie.Visible = false;
-                }
-                stop = true;
-                start.Text = "start";
-            }
+
+            t.Start();
+            gameover = false;
         }
 
         // mechanika gry
         private void Gra_MouseDown(object sender, MouseEventArgs e)
         {
-            // pozycja myszki
-            int myszkaX = e.X;
-            int myszkaY = e.Y;
+            // menu
+            if (e.X > menugry.pmenu.Location.X && e.X < menugry.pmenu.Location.X + menugry.pmenu.Width && e.Y > menugry.pmenu.Location.Y && e.Y < menugry.pmenu.Location.Y + menugry.pmenu.Height && menugry.widoczne)
+            {
+                pokazPrzyciskiMenu();
+                zatrzymajGre();
 
+            }
+            else if (e.X > menugry.psklep.Location.X && e.X < menugry.psklep.Location.X + menugry.psklep.Width && e.Y > menugry.psklep.Location.Y && e.Y < menugry.psklep.Location.Y + menugry.psklep.Height && menugry.widoczne)
+            {
+                zatrzymajGre();
+            }
+            // sklep
+            else if (t.Enabled) {
+                ruchGracza(e.X, e.Y);
+            }
+
+        }
+
+        private void kontynuuj_Click(object sender, EventArgs e)
+        {
+            schowajPrzyciskiMenu();
+            rozpocznijGre();
+        }
+
+        private void wyjdzzgry_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void rozpocznijodnowa_Click(object sender, EventArgs e)
+        {
+            schowajPrzyciskiMenu();
+            restartGry();
+        }
+
+        private void pokazPrzyciskiMenu()
+        {
+            wyjdzzgry.Visible = true;
+            rozpocznijodnowa.Visible = true;
+            kontynuuj.Visible = true;
+            tytul.Visible = true;
+            menugry.widoczne = false;
+        }
+
+        private void schowajPrzyciskiMenu()
+        {
+            wyjdzzgry.Visible = false;
+            rozpocznijodnowa.Visible = false;
+            kontynuuj.Visible = false;
+            tytul.Visible = false;
+            menugry.widoczne = true;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        private void schowajRybki()
+        {
+            for (int i = 0; i < maxiloscRybek; i++)
+            {
+                rybki[i].Rybka.Visible = false;
+                rybki[i].Rownanie.Visible = false;
+            }
+            Invalidate();
+        }
+
+        private void pokazRybki()
+        {
+            for (int i = 0; i < maxiloscRybek; i++)
+            {
+                rybki[i].Rybka.Visible = true;
+                rybki[i].Rownanie.Visible = true;
+            }
+            Invalidate();
+        }
+
+        private void ruchGracza(int myszkaX, int myszkaY)
+        {
             rybki[0].x = myszkaX - rybki[0].Rybka.Size.Width / 2;
             rybki[0].y = myszkaY - rybki[0].Rybka.Size.Height / 2;
 
 
-            for (int i = 1; i < iloscRybek; i++)
+            for (int i = 1; i < maxiloscRybek; i++)
             {
-                
+
                 if (myszkaX < rybki[i].Rybka.Location.X + rybki[i].Rybka.Size.Width
                     && myszkaX > rybki[i].Rybka.Location.X
                     && myszkaY < rybki[i].Rybka.Location.Y + rybki[i].Rybka.Size.Height
@@ -193,25 +275,48 @@ namespace Matematyczne_Rybki
                 {
                     if (rybki[0].liczbaRybki >= rybki[i].liczbaRybki)
                     {
-                        rybki[0].liczbaRybki += rybki[i].liczbaRybki;
+                        rybki[0].liczbaRybki = rybki[i].liczbaRybki;
                         rybki[0].Rownanie.Text = rybki[0].liczbaRybki.ToString();
 
-                        rybki[i].x = losowaLiczba(border, rozmiarX - border);
-                        rybki[i].y = losowaLiczba(border, rozmiarY - border);
-                        rybki[i].liczbaRybki = losowaLiczba(1, 100);
-                        rybki[i].Rownanie.Text = rybki[i].liczbaRybki.ToString();
-                        rybki[i].Rybka.Image = Image.FromFile("../../../Zasoby/Rybki/" + losowaLiczba(1, 17).ToString() + ".png");
+                        resetRybki(i);
                         break;
                     }
                     else
                     {
                         MessageBox.Show("Przegrales!");
+                        restartGry();
                     }
 
                 }
-                
-            }
 
+            }
+        }
+
+
+        private void resetRybki(int i)
+        {
+            rybki[i].x = losowaLiczba(border, rozmiaroknaX - border);
+            rybki[i].y = losowaLiczba(border, rozmiaroknaY - border);
+            rybki[i].liczbaRybki = losowaLiczba(1, 100);
+            rybki[i].Rownanie.Text = rybki[i].liczbaRybki.ToString();
+            rybki[i].Rybka.Image = Image.FromFile("../../../Zasoby/Rybki/" + losowyObrazekRybki().ToString() + ".png");
+        }
+
+
+
+
+        private int losowyObrazekRybki()
+        {
+            bool czyRybkaGracza = true;
+            int rybka = losowaLiczba(1, 17);
+            while (czyRybkaGracza)
+            {
+                if (rybka != s.rybkaGracza)
+                    czyRybkaGracza = false;
+                else
+                    rybka = losowaLiczba(1, 17);
+            }
+            return rybka;
         }
 
         private int losowaLiczba(int min, int max)
@@ -221,8 +326,7 @@ namespace Matematyczne_Rybki
             return liczba;
         }
 
-
-        /// element potrzebny do p�tli gry
+        /// element potrzebny do petli gry
         /// �r�d�o: https://learn.microsoft.com/pl-pl/archive/blogs/tmiller/my-last-post-on-render-loops-hopefully
         [StructLayout(LayoutKind.Sequential)]
         public struct NativeMessage
@@ -234,6 +338,7 @@ namespace Matematyczne_Rybki
             public uint Time;
             public Point Location;
         }
+
         [DllImport("user32.dll")]
         public static extern int PeekMessage(out NativeMessage message, IntPtr window, uint filterMin, uint filterMax, uint remove);
         bool IsApplicationIdle()
@@ -241,28 +346,9 @@ namespace Matematyczne_Rybki
             NativeMessage result;
             return PeekMessage(out result, IntPtr.Zero, (uint)0, (uint)0, (uint)0) == 0;
         }
-        /// koniec elementu potrzebnego do p�tli gry
+        /// koniec elementu potrzebnego do petli gry
 
-        private void labelCzas_Click(object sender, EventArgs e)
-        {
-
-        }
         private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox2_Click_1(object sender, EventArgs e)
         {
 
         }
@@ -272,7 +358,7 @@ namespace Matematyczne_Rybki
 
         }
 
-        private void pictureBox2_Click(object sender, EventArgs e)
+        private void label1_Click(object sender, EventArgs e)
         {
 
         }
