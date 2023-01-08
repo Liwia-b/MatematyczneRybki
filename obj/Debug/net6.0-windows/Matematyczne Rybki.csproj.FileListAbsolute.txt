@@ -1,0 +1,36 @@
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Liwia\Matematyczne Rybki\Matematyczne Rybki\bin\Debug\net6.0-windows\Matematyczne Rybki.exe
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Liwia\Matematyczne Rybki\Matematyczne Rybki\bin\Debug\net6.0-windows\Matematyczne Rybki.deps.json
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Liwia\Matematyczne Rybki\Matematyczne Rybki\bin\Debug\net6.0-windows\Matematyczne Rybki.runtimeconfig.json
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Liwia\Matematyczne Rybki\Matematyczne Rybki\bin\Debug\net6.0-windows\Matematyczne Rybki.dll
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Liwia\Matematyczne Rybki\Matematyczne Rybki\bin\Debug\net6.0-windows\Matematyczne Rybki.pdb
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Liwia\Matematyczne Rybki\Matematyczne Rybki\obj\Debug\net6.0-windows\Matematyczne Rybki.csproj.AssemblyReference.cache
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Liwia\Matematyczne Rybki\Matematyczne Rybki\obj\Debug\net6.0-windows\Matematyczne Rybki.csproj.GenerateResource.cache
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Liwia\Matematyczne Rybki\Matematyczne Rybki\obj\Debug\net6.0-windows\Matematyczne Rybki.GeneratedMSBuildEditorConfig.editorconfig
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Liwia\Matematyczne Rybki\Matematyczne Rybki\obj\Debug\net6.0-windows\Matematyczne Rybki.AssemblyInfoInputs.cache
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Liwia\Matematyczne Rybki\Matematyczne Rybki\obj\Debug\net6.0-windows\Matematyczne Rybki.AssemblyInfo.cs
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Liwia\Matematyczne Rybki\Matematyczne Rybki\obj\Debug\net6.0-windows\Matematyczne Rybki.csproj.CoreCompileInputs.cache
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Liwia\Matematyczne Rybki\Matematyczne Rybki\obj\Debug\net6.0-windows\Matematyczne Rybki.dll
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Liwia\Matematyczne Rybki\Matematyczne Rybki\obj\Debug\net6.0-windows\refint\Matematyczne Rybki.dll
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Liwia\Matematyczne Rybki\Matematyczne Rybki\obj\Debug\net6.0-windows\Matematyczne Rybki.pdb
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Liwia\Matematyczne Rybki\Matematyczne Rybki\obj\Debug\net6.0-windows\Matematyczne Rybki.genruntimeconfig.cache
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Liwia\Matematyczne Rybki\Matematyczne Rybki\obj\Debug\net6.0-windows\ref\Matematyczne Rybki.dll
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Liwia\Matematyczne Rybki\Matematyczne Rybki\obj\Debug\net6.0-windows\Matematyczne_Rybki.Properties.Resources.resources
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Liwia\Matematyczne Rybki\Matematyczne Rybki\obj\Debug\net6.0-windows\Matematyczne_Rybki.Gra.resources
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Nowy folder\Liwia\Matematyczne Rybki\Matematyczne Rybki\bin\Debug\net6.0-windows\Matematyczne Rybki.exe
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Nowy folder\Liwia\Matematyczne Rybki\Matematyczne Rybki\bin\Debug\net6.0-windows\Matematyczne Rybki.deps.json
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Nowy folder\Liwia\Matematyczne Rybki\Matematyczne Rybki\bin\Debug\net6.0-windows\Matematyczne Rybki.runtimeconfig.json
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Nowy folder\Liwia\Matematyczne Rybki\Matematyczne Rybki\bin\Debug\net6.0-windows\Matematyczne Rybki.dll
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Nowy folder\Liwia\Matematyczne Rybki\Matematyczne Rybki\bin\Debug\net6.0-windows\Matematyczne Rybki.pdb
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Nowy folder\Liwia\Matematyczne Rybki\Matematyczne Rybki\obj\Debug\net6.0-windows\Matematyczne Rybki.csproj.AssemblyReference.cache
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Nowy folder\Liwia\Matematyczne Rybki\Matematyczne Rybki\obj\Debug\net6.0-windows\Matematyczne_Rybki.Gra.resources
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Nowy folder\Liwia\Matematyczne Rybki\Matematyczne Rybki\obj\Debug\net6.0-windows\Matematyczne_Rybki.Properties.Resources.resources
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Nowy folder\Liwia\Matematyczne Rybki\Matematyczne Rybki\obj\Debug\net6.0-windows\Matematyczne Rybki.csproj.GenerateResource.cache
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Nowy folder\Liwia\Matematyczne Rybki\Matematyczne Rybki\obj\Debug\net6.0-windows\Matematyczne Rybki.GeneratedMSBuildEditorConfig.editorconfig
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Nowy folder\Liwia\Matematyczne Rybki\Matematyczne Rybki\obj\Debug\net6.0-windows\Matematyczne Rybki.AssemblyInfoInputs.cache
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Nowy folder\Liwia\Matematyczne Rybki\Matematyczne Rybki\obj\Debug\net6.0-windows\Matematyczne Rybki.AssemblyInfo.cs
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Nowy folder\Liwia\Matematyczne Rybki\Matematyczne Rybki\obj\Debug\net6.0-windows\Matematyczne Rybki.csproj.CoreCompileInputs.cache
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Nowy folder\Liwia\Matematyczne Rybki\Matematyczne Rybki\obj\Debug\net6.0-windows\Matematyczne Rybki.dll
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Nowy folder\Liwia\Matematyczne Rybki\Matematyczne Rybki\obj\Debug\net6.0-windows\refint\Matematyczne Rybki.dll
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Nowy folder\Liwia\Matematyczne Rybki\Matematyczne Rybki\obj\Debug\net6.0-windows\Matematyczne Rybki.pdb
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Nowy folder\Liwia\Matematyczne Rybki\Matematyczne Rybki\obj\Debug\net6.0-windows\Matematyczne Rybki.genruntimeconfig.cache
+D:\Pliki\Edukacja\Studia\Semestr 5\JPWP\Nowy folder\Liwia\Matematyczne Rybki\Matematyczne Rybki\obj\Debug\net6.0-windows\ref\Matematyczne Rybki.dll
