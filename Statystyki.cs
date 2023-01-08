@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,17 +8,19 @@ namespace Matematyczne_Rybki
 {
     class Statystyki
     {
-        public int wynik;
-        public int czas;
-        public int poziom;
+        public int wynikAktualny, rekord;
+        public int czasUstawiony, czasAktualny;
+        public int poziomAktualny, poziomRekord;
         public int pieniadze;
         public int rybkaGracza;
+        private string[] informacjeograczu = System.IO.File.ReadAllLines("../../../Zasoby/gracz.txt");
 
         public Statystyki()
         {
-            czas = 45;
-            wynik = 0;
-            poziom = 1;
+            czasUstawiony = 45;
+            czasAktualny = czasUstawiony;
+            wynikAktualny = 0;
+            poziomAktualny = 1;
             pieniadze = 0;
             rybkaGracza = 1;
         }
