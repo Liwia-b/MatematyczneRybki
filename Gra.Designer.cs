@@ -1,4 +1,4 @@
-﻿namespace Matematyczne_Rybki
+namespace Matematyczne_Rybki
 {
     partial class Gra
     {
@@ -29,70 +29,82 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Gra));
-            this.labelCzas = new System.Windows.Forms.Label();
-            this.progressBar = new System.Windows.Forms.ProgressBar();
-            this.start = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.startprzycisk = new System.Windows.Forms.Button();
+            this.tytul = new System.Windows.Forms.Label();
+            this.wyjdzzgry = new System.Windows.Forms.Button();
+            this.rozpocznijodnowa = new System.Windows.Forms.Button();
+            this.kontynuuj = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // labelCzas
+            // startprzycisk
             // 
-            this.labelCzas.AutoSize = true;
-            this.labelCzas.BackColor = System.Drawing.Color.Transparent;
-            this.labelCzas.Font = new System.Drawing.Font("Segoe UI", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCzas.Location = new System.Drawing.Point(853, 9);
-            this.labelCzas.Name = "labelCzas";
-            this.labelCzas.Size = new System.Drawing.Size(159, 50);
-            this.labelCzas.TabIndex = 0;
-            this.labelCzas.Text = "Czas: XX";
-            this.labelCzas.Click += new System.EventHandler(this.labelCzas_Click);
+            this.startprzycisk.AutoSize = true;
+            this.startprzycisk.BackColor = System.Drawing.Color.Pink;
+            this.startprzycisk.Font = new System.Drawing.Font("Cooper Black", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.startprzycisk.Location = new System.Drawing.Point(169, 652);
+            this.startprzycisk.Name = "startprzycisk";
+            this.startprzycisk.Size = new System.Drawing.Size(708, 82);
+            this.startprzycisk.TabIndex = 2;
+            this.startprzycisk.Text = "rozpocznij gre";
+            this.startprzycisk.UseVisualStyleBackColor = false;
+            this.startprzycisk.Click += new System.EventHandler(this.start_Click);
             // 
-            // progressBar
+            // tytul
             // 
-            this.progressBar.BackColor = System.Drawing.Color.IndianRed;
-            this.progressBar.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.progressBar.Location = new System.Drawing.Point(853, 62);
-            this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(159, 23);
-            this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.progressBar.TabIndex = 1;
+            this.tytul.BackColor = System.Drawing.Color.Pink;
+            this.tytul.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.tytul.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.tytul.Font = new System.Drawing.Font("Cooper Black", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.tytul.ForeColor = System.Drawing.Color.Black;
+            this.tytul.Location = new System.Drawing.Point(169, 65);
+            this.tytul.Name = "tytul";
+            this.tytul.Size = new System.Drawing.Size(708, 117);
+            this.tytul.TabIndex = 3;
+            this.tytul.Text = "matematyczne rybki";
+            this.tytul.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.tytul.Click += new System.EventHandler(this.label1_Click);
             // 
-            // start
+            // wyjdzzgry
             // 
-            this.start.AutoSize = true;
-            this.start.Location = new System.Drawing.Point(24, 652);
-            this.start.Name = "start";
-            this.start.Size = new System.Drawing.Size(75, 25);
-            this.start.TabIndex = 2;
-            this.start.Text = "start";
-            this.start.UseVisualStyleBackColor = true;
-            this.start.Click += new System.EventHandler(this.start_Click);
+            this.wyjdzzgry.AutoSize = true;
+            this.wyjdzzgry.BackColor = System.Drawing.Color.Pink;
+            this.wyjdzzgry.Font = new System.Drawing.Font("Cooper Black", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.wyjdzzgry.Location = new System.Drawing.Point(169, 469);
+            this.wyjdzzgry.Name = "wyjdzzgry";
+            this.wyjdzzgry.Size = new System.Drawing.Size(708, 82);
+            this.wyjdzzgry.TabIndex = 4;
+            this.wyjdzzgry.Text = "wyjdz z gry";
+            this.wyjdzzgry.UseVisualStyleBackColor = false;
+            this.wyjdzzgry.Visible = false;
+            this.wyjdzzgry.Click += new System.EventHandler(this.wyjdzzgry_Click);
             // 
-            // pictureBox1
+            // rozpocznijodnowa
             // 
-            this.pictureBox1.BackColor = System.Drawing.Color.White;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(12, 9);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(66, 65);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 3;
-            this.pictureBox1.TabStop = false;
+            this.rozpocznijodnowa.AutoSize = true;
+            this.rozpocznijodnowa.BackColor = System.Drawing.Color.Pink;
+            this.rozpocznijodnowa.Font = new System.Drawing.Font("Cooper Black", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.rozpocznijodnowa.Location = new System.Drawing.Point(169, 381);
+            this.rozpocznijodnowa.Name = "rozpocznijodnowa";
+            this.rozpocznijodnowa.Size = new System.Drawing.Size(708, 82);
+            this.rozpocznijodnowa.TabIndex = 5;
+            this.rozpocznijodnowa.Text = "rozpocznij od nowa";
+            this.rozpocznijodnowa.UseVisualStyleBackColor = false;
+            this.rozpocznijodnowa.Visible = false;
+            this.rozpocznijodnowa.Click += new System.EventHandler(this.rozpocznijodnowa_Click);
             // 
-            // pictureBox2
+            // kontynuuj
             // 
-            this.pictureBox2.BackColor = System.Drawing.Color.White;
-            this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(84, 12);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(63, 50);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 4;
-            this.pictureBox2.TabStop = false;
+            this.kontynuuj.AutoSize = true;
+            this.kontynuuj.BackColor = System.Drawing.Color.Pink;
+            this.kontynuuj.Font = new System.Drawing.Font("Cooper Black", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.kontynuuj.Location = new System.Drawing.Point(169, 293);
+            this.kontynuuj.Name = "kontynuuj";
+            this.kontynuuj.Size = new System.Drawing.Size(708, 82);
+            this.kontynuuj.TabIndex = 6;
+            this.kontynuuj.Text = "kontynuuj";
+            this.kontynuuj.UseVisualStyleBackColor = false;
+            this.kontynuuj.Visible = false;
+            this.kontynuuj.Click += new System.EventHandler(this.kontynuuj_Click);
             // 
             // Gra
             // 
@@ -100,31 +112,29 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(1024, 768);
-            this.Controls.Add(this.pictureBox2);
-            this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.start);
-            this.Controls.Add(this.progressBar);
-            this.Controls.Add(this.labelCzas);
+            this.Controls.Add(this.kontynuuj);
+            this.Controls.Add(this.rozpocznijodnowa);
+            this.Controls.Add(this.wyjdzzgry);
+            this.Controls.Add(this.tytul);
+            this.Controls.Add(this.startprzycisk);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Gra";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Gra_MouseClick);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Gra_MouseDown);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private Label labelCzas;
-        private ProgressBar progressBar;
-        private Button start;
-        private PictureBox pictureBox1;
-        private PictureBox pictureBox2;
+        private Button startprzycisk;
+        private Label tytul;
+        private Button wyjdzzgry;
+        private Button rozpocznijodnowa;
+        private Button kontynuuj;
     }
 }
