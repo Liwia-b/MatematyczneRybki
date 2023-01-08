@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +17,7 @@ namespace Matematyczne_Rybki
         private Gra main;
 
         public bool prawo;
-        public int predkoscRybek = 2;
+        public int predkoscRybek = 1;
 
         public Rybki(Gra main, string img, int x, int y)
         {
@@ -46,7 +46,6 @@ namespace Matematyczne_Rybki
             Rybka.Location = new Point(x, y);
             Rownanie.Location = new Point(Rybka.Location.X + Rybka.Size.Width / 5, y + 75);
             main.Paint += new PaintEventHandler(paintRybka);
-            main.Paint += new PaintEventHandler(paintRownanie);
         }
 
         // rysowanie rybki
@@ -56,10 +55,7 @@ namespace Matematyczne_Rybki
             {
                 e.Graphics.DrawImage(Rybka.Image, Rybka.Left, Rybka.Top, Rybka.Width, Rybka.Height);
             }
-        }
 
-        private void paintRownanie(object sender, PaintEventArgs e)
-        {
             if (Rybka.Visible == true && Rownanie.Visible == true)
             {
                 Size rozmiar = TextRenderer.MeasureText(Rownanie.Text, Rownanie.Font);
@@ -67,6 +63,7 @@ namespace Matematyczne_Rybki
                 e.Graphics.FillRectangle(Brushes.White, tlo);
                 e.Graphics.DrawString(Rownanie.Text, Rownanie.Font, new SolidBrush(Rownanie.ForeColor), Rownanie.Location);
             }
+
         }
 
         public void animacjaGracza(int innaRybka)
