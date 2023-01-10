@@ -30,11 +30,11 @@ namespace Matematyczne_Rybki
 
         //rybki
         private Rybki[] rybki;
-        private static int maxiloscRybek = 16;
+        private static int maxiloscRybek = 20;
         private int iloscRybek = 3;
         
-        //statystyki
-        private Statystyki s;
+        // dane
+        private Dane d;
 
         public Gra()
         {
@@ -55,7 +55,10 @@ namespace Matematyczne_Rybki
             player.PlayLooping();
 
             // tworzy nowy profil gracza
-            s = new Statystyki();
+            d = new Dane();
+
+            // wczytuje wzory poziomow
+            d.wczytajPoziomy();
 
             // timer
             t = new System.Timers.Timer();
@@ -72,13 +75,13 @@ namespace Matematyczne_Rybki
             int YnaRybke = miejsceY / maxiloscRybek;
 
             // tworzy rybke gracza
-            rybki[0] = new Rybki(this, ("../../../Zasoby/Rybki/" + s.rybkaGracza + ".png"), losowaLiczba(border, (rozmiaroknaX - border)), losowaLiczba(border, (rozmiaroknaY - border)));
+            rybki[0] = new Rybki(this, ("../../../Zasoby/Rybki/" + d.rybkaGracza + ".png"), losowaLiczba(border, (rozmiaroknaX - border)), losowaLiczba(border, (rozmiaroknaY - border)));
             rybki[0].Rownanie.ForeColor = Color.Red;
             
             // tworzy wszystkie rybki
             for (int i = 1; i < maxiloscRybek; i++)
             {
-                rybki[i] = new Rybki(this, ("../../../Zasoby/Rybki/" + losowyObrazekRybki().ToString() + ".png"), losowaLiczba(border, (rozmiaroknaX - border)), losowaLiczba(border, (rozmiaroknaY - border)));
+                rybki[i] = new Rybki(this, ("../../../Zasoby/Rybki/" + losowaLiczba(1,17).ToString() + ".png"), losowaLiczba(border, (rozmiaroknaX - border)), losowaLiczba(border, (rozmiaroknaY - border)));
                 rybki[i].Rownanie.Visible = false;
             }
         }
@@ -87,11 +90,11 @@ namespace Matematyczne_Rybki
         {
             Invoke(new Action(() =>
             {
-                s.czasAktualny--;
+                d.czasAktualny--;
 
-                if (s.czasAktualny < 0)
+                if (d.czasAktualny < 0)
                 {
-                    s.czasAktualny = 0;
+                    d.czasAktualny = 0;
                     przegrana = true;
                 }
 
@@ -100,7 +103,7 @@ namespace Matematyczne_Rybki
                     t.Stop();
                 }
 
-                menugry.zaktualizujCzas(s.czasAktualny, s.czasUstawiony);
+                menugry.zaktualizujCzas(d.czasAktualny, d.czasUstawiony);
             }));
         }
 
@@ -148,8 +151,42 @@ namespace Matematyczne_Rybki
 
         private void restartGry()
         {
-            s.poziomAktualny = 1;
+            ustawPoziom(1);
+            rybki[0].liczbaRybki = losowaLiczba(5, 15);
+            for (int i = 1; i < maxiloscRybek; i++)
+            {
+                resetRybki(i);
+            }
             rozpocznijGre();
+            gameover = false;
+        }
+
+        private void ustawPoziom(int i)
+        {
+            if (i == 1)
+            {
+                d.poziomAktualny = 1;
+                d.czasUstawiony = d.poziomCzas[0];
+                d.czasAktualny = d.poziomCzas[0];
+            }
+            else if (i == 2)
+            {
+                d.poziomAktualny = 2;
+                d.czasUstawiony = d.poziomCzas[1];
+                d.czasAktualny = d.poziomCzas[1];
+            }
+            else if (i == 3)
+            {
+                d.poziomAktualny = 3;
+                d.czasUstawiony = d.poziomCzas[2];
+                d.czasAktualny = d.poziomCzas[2];
+            }
+            else if (i == 4)
+            {
+                d.poziomAktualny = 4;
+                d.czasUstawiony = d.poziomCzas[3];
+                d.czasAktualny = d.poziomCzas[3];
+            }
         }
 
         private void przegranaGracza()
@@ -161,15 +198,34 @@ namespace Matematyczne_Rybki
         {
             startprzycisk.Visible = false;
             menugry.widoczne = true;
+            nazwagracza.Visible = false;
             tytul.Visible = false;
+
+            if (nazwagracza.Text == "Podaj nazwe gracza!")
+            {
+                nazwagracza.Text = "Gracz";
+            }
+
+            // Ustawianie statystyk gracza
+            d.nazwagracza = nazwagracza.Text;
+            ustawGracza();
 
             for (int i = 0; i < maxiloscRybek; i++)
             {
                 rybki[i].Rownanie.Visible = true;
             }
 
-            t.Start();
-            gameover = false;
+            restartGry();
+        }
+
+        private void ustawGracza()
+        {
+            d.szukajDanychGracza();
+            menugry.nazwagracza.Text = d.nazwagracza;
+            menugry.pieniadze.Text = d.pieniadze.ToString();
+            menugry.zaktualizujCzas(d.czasAktualny, d.czasUstawiony);
+            rybki[0].Rybka.Image = Image.FromFile("../../../Zasoby/Rybki/" + d.rybkaGracza.ToString() + ".png");
+
         }
 
         // mechanika gry
@@ -201,6 +257,7 @@ namespace Matematyczne_Rybki
 
         private void wyjdzzgry_Click(object sender, EventArgs e)
         {
+            d.zapiszDaneGracza();
             Application.Exit();
         }
 
@@ -283,7 +340,7 @@ namespace Matematyczne_Rybki
                     }
                     else
                     {
-                        MessageBox.Show("Przegrales!");
+                        MessageBox.Show("Przegrales, gra rozpocznie sie od pierwszego poziomu!");
                         restartGry();
                     }
 
@@ -295,15 +352,41 @@ namespace Matematyczne_Rybki
 
         private void resetRybki(int i)
         {
-            rybki[i].x = losowaLiczba(border, rozmiaroknaX - border);
-            rybki[i].y = losowaLiczba(border, rozmiaroknaY - border);
-            rybki[i].liczbaRybki = losowaLiczba(1, 100);
-            rybki[i].Rownanie.Text = rybki[i].liczbaRybki.ToString();
-            rybki[i].Rybka.Image = Image.FromFile("../../../Zasoby/Rybki/" + losowyObrazekRybki().ToString() + ".png");
+
+            if (d.poziomAktualny == 1)
+            {
+                rybki[i].x = losowaLiczba(border, rozmiaroknaX - border);
+                rybki[i].y = losowaLiczba(border, rozmiaroknaY - border);
+                rybki[i].liczbaRybki = losowaLiczba(1, 150);
+                rybki[i].Rownanie.Text = rybki[i].liczbaRybki.ToString();
+                resetObrazkaRybki(i);
+            }
+            else if (d.poziomAktualny == 2)
+            {
+
+            }
+            else if (d.poziomAktualny == 3)
+            {
+
+            }
+            else if (d.poziomAktualny == 4)
+            {
+
+            }
         }
 
-
-
+        private void resetObrazkaRybki(int i)
+        {
+            if (rybki[i].prawo == true)
+            {
+                rybki[i].Rybka.Image = Image.FromFile("../../../Zasoby/Rybki/" + losowyObrazekRybki().ToString() + ".png");
+                Image nowaRybka = rybki[i].Rybka.Image;
+                nowaRybka.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                rybki[i].Rybka.Image = nowaRybka;
+            }
+            else
+                rybki[i].Rybka.Image = Image.FromFile("../../../Zasoby/Rybki/" + losowyObrazekRybki().ToString() + ".png");
+        }
 
         private int losowyObrazekRybki()
         {
@@ -311,7 +394,7 @@ namespace Matematyczne_Rybki
             int rybka = losowaLiczba(1, 17);
             while (czyRybkaGracza)
             {
-                if (rybka != s.rybkaGracza)
+                if (rybka != d.rybkaGracza)
                     czyRybkaGracza = false;
                 else
                     rybka = losowaLiczba(1, 17);
@@ -359,6 +442,11 @@ namespace Matematyczne_Rybki
         }
 
         private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void nazwagracza_TextChanged(object sender, EventArgs e)
         {
 
         }
