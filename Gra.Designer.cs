@@ -34,6 +34,7 @@ namespace Matematyczne_Rybki
             this.wyjdzzgry = new System.Windows.Forms.Button();
             this.rozpocznijodnowa = new System.Windows.Forms.Button();
             this.kontynuuj = new System.Windows.Forms.Button();
+            this.nazwagracza = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // startprzycisk
@@ -106,12 +107,23 @@ namespace Matematyczne_Rybki
             this.kontynuuj.Visible = false;
             this.kontynuuj.Click += new System.EventHandler(this.kontynuuj_Click);
             // 
+            // nazwagracza
+            // 
+            this.nazwagracza.Location = new System.Drawing.Point(169, 623);
+            this.nazwagracza.Name = "nazwagracza";
+            this.nazwagracza.Size = new System.Drawing.Size(708, 23);
+            this.nazwagracza.TabIndex = 7;
+            this.nazwagracza.Text = "Podaj nazwe gracza!";
+            this.nazwagracza.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nazwagracza.TextChanged += new System.EventHandler(this.nazwagracza_TextChanged);
+            // 
             // Gra
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(1024, 768);
+            this.Controls.Add(this.nazwagracza);
             this.Controls.Add(this.kontynuuj);
             this.Controls.Add(this.rozpocznijodnowa);
             this.Controls.Add(this.wyjdzzgry);
@@ -136,5 +148,6 @@ namespace Matematyczne_Rybki
         private Button wyjdzzgry;
         private Button rozpocznijodnowa;
         private Button kontynuuj;
+        private TextBox nazwagracza;
     }
 }
