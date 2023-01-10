@@ -16,7 +16,7 @@ namespace Matematyczne_Rybki
         public int liczbaRybki;
         private Gra main;
 
-        public bool prawo;
+        public bool prawo = false;
         public int predkoscRybek = 1;
 
         public Rybki(Gra main, string img, int x, int y)
@@ -36,6 +36,13 @@ namespace Matematyczne_Rybki
             Rownanie.Visible = false;
 
             Rybka.Image = Image.FromFile(img);
+            if (rnd.Next(1, 3) == 1)
+            {
+                prawo = true;
+                Image nowaRybka = Rybka.Image;
+                nowaRybka.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                Rybka.Image = nowaRybka;
+            }
             Rybka.Visible = true;
 
             Rybka.Size = new Size(Rybka.Image.Width / zoomFactor, Rybka.Image.Height / zoomFactor);
