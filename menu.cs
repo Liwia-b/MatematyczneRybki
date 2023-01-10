@@ -16,7 +16,8 @@ namespace Matematyczne_Rybki
         public PictureBox psklep, pmenu;
         private Rectangle pasekczasu, tlopaskaczasu;
         private int szerokoscpaskaczasu = 150;
-        private Label czas, nazwagracza, poziom, pieniadze;
+        private Label czas;
+        public Label nazwagracza, pieniadze, poziom;
         private static Image omenu = Image.FromFile("../../../Zasoby/Inne/menu.png");
         private static Image osklep = Image.FromFile("../../../Zasoby/Inne/sklep.png");
 
@@ -97,6 +98,11 @@ namespace Matematyczne_Rybki
                 SizeF szerokoscCzasu = e.Graphics.MeasureString(czas.Text, czcionka);
                 czas.Location = new Point(tlopaskaczasu.X + (tlopaskaczasu.Width - (int)szerokoscCzasu.Width) / 2, tlopaskaczasu.Y + tlopaskaczasu.Height + 10);
                 e.Graphics.DrawString(czas.Text, czcionka, bialy, czas.Location);
+
+                // poziom
+                SizeF szerokoscPoziomu = e.Graphics.MeasureString(poziom.Text, czcionka);
+                poziom.Location = new Point(tlopaskaczasu.X + (tlopaskaczasu.Width - (int)szerokoscPoziomu.Width) / 2, tlopaskaczasu.Y + tlopaskaczasu.Height + czas.Height + padding);
+                e.Graphics.DrawString(poziom.Text, czcionka, bialy, poziom.Location);
 
             }
         }
