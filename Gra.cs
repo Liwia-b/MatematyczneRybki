@@ -16,9 +16,6 @@ namespace Matematyczne_Rybki
         //timer
         private System.Timers.Timer t;
 
-        //stany gry
-        private bool przegrana = false;
-
         //rozmiar okna
         public static int rozmiaroknaX = 1024;
         public static int rozmiaroknaY = 768;
@@ -26,7 +23,8 @@ namespace Matematyczne_Rybki
 
         //menu
         menu menugry;
-        private bool gameover = true;
+        private int wybranaRybka = 1;
+        private bool sklep = false;
 
         //rybki
         private Rybki[] rybki;
@@ -95,12 +93,36 @@ namespace Matematyczne_Rybki
                 if (d.czasAktualny < 0)
                 {
                     d.czasAktualny = 0;
-                    przegrana = true;
-                }
 
-                if (przegrana)
-                {
-                    t.Stop();
+                    if (d.poziomAktualny == 4)
+                    {
+                        t.Stop();
+                        MessageBox.Show("Gra nie ma wiecej poziomów trudności, jednak możesz grać dalej aby uzyskiwać co raz lepszy wynik oraz zbierać pieniądze na nową rybkę!");
+                        t.Start();
+                    }
+
+                    // warunek punktowy
+                    if (d.poziomAktualny < 4)
+                    {
+                        if (rybki[0].liczbaRybki > d.poziomPunkty[d.poziomAktualny - 1])
+                        {
+                            d.poziomAktualny += 1;
+                            resetGry(d.poziomAktualny);
+                        }
+                        else
+                            przegrales(1);
+                    }
+                    else
+                    {
+                        if (rybki[0].liczbaRybki > d.poziomPunkty[3])
+                        {
+                            d.poziomAktualny += 1;
+                            resetGry(d.poziomAktualny);
+                        }
+                        else
+                            przegrales(1);
+                    }
+
                 }
 
                 menugry.zaktualizujCzas(d.czasAktualny, d.czasUstawiony);
@@ -109,14 +131,6 @@ namespace Matematyczne_Rybki
 
         private void petlaGry(object sender, EventArgs e)
         {
-            // jezeli gracz przegral to gra sie konczy
-            if (przegrana)
-            {
-                t.Stop();
-                MessageBox.Show("Przegrana!");
-                Application.ExitThread();
-            }
-
             while (IsApplicationIdle())
             {
                 // animacje rybek
@@ -137,6 +151,16 @@ namespace Matematyczne_Rybki
 
         }
 
+        private void przegrales(int i)
+        {
+            zatrzymajGre();
+            if (i == 1)
+                MessageBox.Show("Uzyskany wynik jest za niski.. Gra rozpocznie się od pierwszego poziomu, tym razem musisz szybciej liczyć!");
+            else
+                MessageBox.Show("Większa rybka Cię zjadła.. Gra rozpocznie sie od pierwszego poziomu!");
+            rozpocznijGre();
+            resetGry(1);
+        }
         private void rozpocznijGre()
         {
             t.Start();
@@ -149,16 +173,18 @@ namespace Matematyczne_Rybki
             t.Stop();
         }
 
-        private void restartGry()
+        private void resetGry(int poziom)
         {
-            ustawPoziom(1);
-            rybki[0].liczbaRybki = losowaLiczba(5, 15);
+            ustawPoziom(poziom);
+            aktualizujmenu();
+            menugry.zaktualizujCzas(d.czasAktualny, d.czasUstawiony);
+            rybki[0].liczbaRybki = losowaLiczba(15, 25);
+            rybki[0].Rownanie.Text = rybki[0].liczbaRybki.ToString();
             for (int i = 1; i < maxiloscRybek; i++)
             {
                 resetRybki(i);
             }
             rozpocznijGre();
-            gameover = false;
         }
 
         private void ustawPoziom(int i)
@@ -171,27 +197,24 @@ namespace Matematyczne_Rybki
             }
             else if (i == 2)
             {
-                d.poziomAktualny = 2;
                 d.czasUstawiony = d.poziomCzas[1];
                 d.czasAktualny = d.poziomCzas[1];
             }
             else if (i == 3)
             {
-                d.poziomAktualny = 3;
                 d.czasUstawiony = d.poziomCzas[2];
                 d.czasAktualny = d.poziomCzas[2];
             }
             else if (i == 4)
             {
-                d.poziomAktualny = 4;
                 d.czasUstawiony = d.poziomCzas[3];
                 d.czasAktualny = d.poziomCzas[3];
             }
-        }
-
-        private void przegranaGracza()
-        {
-            
+            else
+            {
+                d.czasUstawiony = d.poziomCzas[3];
+                d.czasAktualny = d.poziomCzas[3];
+            }
         }
 
         private void start_Click(object sender, EventArgs e)
@@ -215,14 +238,13 @@ namespace Matematyczne_Rybki
                 rybki[i].Rownanie.Visible = true;
             }
 
-            restartGry();
+            resetGry(1);
         }
 
         private void ustawGracza()
         {
             d.szukajDanychGracza();
-            menugry.nazwagracza.Text = d.nazwagracza;
-            menugry.pieniadze.Text = d.pieniadze.ToString();
+            aktualizujmenu();
             menugry.zaktualizujCzas(d.czasAktualny, d.czasUstawiony);
             rybki[0].Rybka.Image = Image.FromFile("../../../Zasoby/Rybki/" + d.rybkaGracza.ToString() + ".png");
 
@@ -232,7 +254,7 @@ namespace Matematyczne_Rybki
         private void Gra_MouseDown(object sender, MouseEventArgs e)
         {
             // menu
-            if (e.X > menugry.pmenu.Location.X && e.X < menugry.pmenu.Location.X + menugry.pmenu.Width && e.Y > menugry.pmenu.Location.Y && e.Y < menugry.pmenu.Location.Y + menugry.pmenu.Height && menugry.widoczne)
+            if (e.X > menugry.pmenu.Location.X && e.X < menugry.pmenu.Location.X + menugry.pmenu.Width && e.Y > menugry.pmenu.Location.Y && e.Y < menugry.pmenu.Location.Y + menugry.pmenu.Height && menugry.widoczne && !sklep)
             {
                 pokazPrzyciskiMenu();
                 zatrzymajGre();
@@ -240,13 +262,44 @@ namespace Matematyczne_Rybki
             }
             else if (e.X > menugry.psklep.Location.X && e.X < menugry.psklep.Location.X + menugry.psklep.Width && e.Y > menugry.psklep.Location.Y && e.Y < menugry.psklep.Location.Y + menugry.psklep.Height && menugry.widoczne)
             {
-                zatrzymajGre();
+                if (t.Enabled)
+                {
+                    zatrzymajGre();
+                    pokazSklep();
+                }
+                else
+                {
+                    ukryjSklep();
+                    rozpocznijGre();
+                }
+
             }
             // sklep
             else if (t.Enabled) {
                 ruchGracza(e.X, e.Y);
             }
 
+        }
+
+        private void pokazSklep()
+        {
+            sklep = true;
+            button1.Visible = true;
+            button2.Visible = true;
+            button3.Visible = true;
+            pictureBox1.Image = Image.FromFile("../../../Zasoby/Rybki/" + wybranaRybka.ToString() + ".png");
+            pictureBox1.Visible = true;
+            button1.Text = "kup rybke za " + Dane.cennikRybek[wybranaRybka - 1];
+
+        }
+
+        private void ukryjSklep()
+        {
+            sklep = false;
+            button1.Visible = false;
+            button2.Visible = false;
+            button3.Visible = false;
+            pictureBox1.Visible = false;
         }
 
         private void kontynuuj_Click(object sender, EventArgs e)
@@ -264,7 +317,7 @@ namespace Matematyczne_Rybki
         private void rozpocznijodnowa_Click(object sender, EventArgs e)
         {
             schowajPrzyciskiMenu();
-            restartGry();
+            resetGry(1);
         }
 
         private void pokazPrzyciskiMenu()
@@ -316,6 +369,14 @@ namespace Matematyczne_Rybki
             Invalidate();
         }
 
+        private void aktualizujmenu()
+        {
+            menugry.pieniadze.Text = d.pieniadze.ToString();
+            menugry.poziom.Text = "POZIOM: " + d.poziomAktualny.ToString();
+            menugry.nazwagracza.Text = d.nazwagracza;
+            Invalidate();
+        }
+
         private void ruchGracza(int myszkaX, int myszkaY)
         {
             rybki[0].x = myszkaX - rybki[0].Rybka.Size.Width / 2;
@@ -332,16 +393,17 @@ namespace Matematyczne_Rybki
                 {
                     if (rybki[0].liczbaRybki >= rybki[i].liczbaRybki)
                     {
-                        rybki[0].liczbaRybki = rybki[i].liczbaRybki;
+                        rybki[0].liczbaRybki += rybki[i].liczbaRybki;
                         rybki[0].Rownanie.Text = rybki[0].liczbaRybki.ToString();
-
+                        d.pieniadze += 10;
+                        aktualizujmenu();
                         resetRybki(i);
                         break;
                     }
                     else
                     {
-                        MessageBox.Show("Przegrales, gra rozpocznie sie od pierwszego poziomu!");
-                        restartGry();
+                        przegrales(0);
+                        break;
                     }
 
                 }
@@ -352,27 +414,119 @@ namespace Matematyczne_Rybki
 
         private void resetRybki(int i)
         {
-
+            resetPozycjiRybki(i);
+            resetObrazkaRybki(i);
+            bool jestMniejszaRybka = false;
             if (d.poziomAktualny == 1)
             {
-                rybki[i].x = losowaLiczba(border, rozmiaroknaX - border);
-                rybki[i].y = losowaLiczba(border, rozmiaroknaY - border);
-                rybki[i].liczbaRybki = losowaLiczba(1, 150);
+                int nowaCyfraRybki = 0;
+                while (!jestMniejszaRybka)
+                {
+                    nowaCyfraRybki = losowaLiczba(-10, 150);
+                    if (nowaCyfraRybki > rybki[0].liczbaRybki)
+                    {
+                        for (int j = 1; j < maxiloscRybek; j++)
+                        {
+                            if (rybki[j].liczbaRybki < rybki[0].liczbaRybki)
+                                jestMniejszaRybka = true;
+                        }
+                    }
+                    else
+                            jestMniejszaRybka = true;
+                }
+                rybki[i].liczbaRybki = nowaCyfraRybki;
                 rybki[i].Rownanie.Text = rybki[i].liczbaRybki.ToString();
-                resetObrazkaRybki(i);
             }
             else if (d.poziomAktualny == 2)
             {
+                int iloscWzorow = d.poziom2.Length;
+                int nowyWzorRybki = 0;
+                int wynikWzoru = 0;
+                string wzor = "";
 
+                while (!jestMniejszaRybka)
+                {
+                    nowyWzorRybki = losowaLiczba(0, iloscWzorow);
+                    string[] wzoriwynik = d.poziom2[nowyWzorRybki].Split('=');
+                    wynikWzoru = Int32.Parse(wzoriwynik[1]);
+                    wzor = wzoriwynik[0];
+
+                    if (wynikWzoru > rybki[0].liczbaRybki)
+                    {
+                        for (int j = 1; j < maxiloscRybek; j++)
+                        {
+                            if (rybki[j].liczbaRybki < rybki[0].liczbaRybki)
+                                jestMniejszaRybka = true;
+                        }
+                    }
+                    else
+                        jestMniejszaRybka = true;
+                }
+                rybki[i].liczbaRybki = wynikWzoru;
+                rybki[i].Rownanie.Text = wzor;
             }
             else if (d.poziomAktualny == 3)
             {
+                int iloscWzorow = d.poziom3.Length;
+                int nowyWzorRybki = 0;
+                int wynikWzoru = 0;
+                string wzor = "";
 
+                while (!jestMniejszaRybka)
+                {
+                    nowyWzorRybki = losowaLiczba(0, iloscWzorow);
+                    string[] wzoriwynik = d.poziom3[nowyWzorRybki].Split('=');
+                    wynikWzoru = Int32.Parse(wzoriwynik[1]);
+                    wzor = wzoriwynik[0];
+
+                    if (wynikWzoru > rybki[0].liczbaRybki)
+                    {
+                        for (int j = 1; j < maxiloscRybek; j++)
+                        {
+                            if (rybki[j].liczbaRybki < rybki[0].liczbaRybki)
+                                jestMniejszaRybka = true;
+                        }
+                    }
+                    else
+                        jestMniejszaRybka = true;
+                }
+                rybki[i].liczbaRybki = wynikWzoru;
+                rybki[i].Rownanie.Text = wzor;
             }
-            else if (d.poziomAktualny == 4)
+            else if (d.poziomAktualny >= 4)
             {
+                int iloscWzorow = d.poziom4.Length;
+                int nowyWzorRybki = 0;
+                int wynikWzoru = 0;
+                string wzor = "";
 
+                while (!jestMniejszaRybka)
+                {
+                    nowyWzorRybki = losowaLiczba(0, iloscWzorow);
+                    string[] wzoriwynik = d.poziom4[nowyWzorRybki].Split('=');
+                    wynikWzoru = Int32.Parse(wzoriwynik[1]);
+                    wzor = wzoriwynik[0];
+
+                    if (wynikWzoru > rybki[0].liczbaRybki)
+                    {
+                        for (int j = 1; j < maxiloscRybek; j++)
+                        {
+                            if (rybki[j].liczbaRybki < rybki[0].liczbaRybki)
+                                jestMniejszaRybka = true;
+                        }
+                    }
+                    else
+                        jestMniejszaRybka = true;
+                }
+                rybki[i].liczbaRybki = wynikWzoru;
+                rybki[i].Rownanie.Text = wzor;
             }
+        }
+
+        private void resetPozycjiRybki(int i)
+        {
+            rybki[i].x = losowaLiczba(border, rozmiaroknaX - border);
+            rybki[i].y = losowaLiczba(border, rozmiaroknaY - border);
         }
 
         private void resetObrazkaRybki(int i)
@@ -449,6 +603,40 @@ namespace Matematyczne_Rybki
         private void nazwagracza_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            wybranaRybka++;
+            if (wybranaRybka == 17)
+                wybranaRybka = 1;
+            pictureBox1.Image = Image.FromFile("../../../Zasoby/Rybki/" + wybranaRybka.ToString() + ".png");
+            button1.Text = "kup rybke za " + Dane.cennikRybek[wybranaRybka - 1];
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            wybranaRybka--;
+            if (wybranaRybka == 0)
+                wybranaRybka = 16;
+            pictureBox1.Image = Image.FromFile("../../../Zasoby/Rybki/" + wybranaRybka.ToString() + ".png");
+            button1.Text = "kup rybke za " + Dane.cennikRybek[wybranaRybka-1];
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (d.pieniadze > Dane.cennikRybek[wybranaRybka - 1])
+            {
+                d.pieniadze -= Dane.cennikRybek[wybranaRybka - 1];
+                d.rybkaGracza = wybranaRybka;
+                aktualizujmenu();
+                rybki[0].Rybka.Image = Image.FromFile("../../../Zasoby/Rybki/" + d.rybkaGracza.ToString() + ".png");
+                MessageBox.Show("Zakup pomyślny!, nowa rybka została ustawiona");
+            }
+            else
+            {
+                MessageBox.Show("Zakup nieudany.. uzbieraj więcej pieniędzy aby zakupić tę rybkę!");
+            }
         }
     }
 }
