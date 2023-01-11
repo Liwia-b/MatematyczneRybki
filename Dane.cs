@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +8,9 @@ namespace Matematyczne_Rybki
 {
     class Dane
     {
+
+        public static int[] cennikRybek = {10000, 5000, 2000, 1000, -1, 20000, 50000, 2, 0, -1000, 7000, 3000, 9000, 3000, 15000, 9999999};
+
         public int wynikAktualny, rekord;
         public int czasUstawiony, czasAktualny;
         public int poziomAktualny, poziomRekord;
@@ -35,8 +38,8 @@ namespace Matematyczne_Rybki
             pieniadze = 0;
             rybkaGracza = 5;
 
-            poziomCzas = new int[] { 30, 60, 90, 90 };
-            poziomPunkty = new int[] { 100, 200, 300, 400 };
+            poziomCzas = new int[] { 30, 60, 60, 90 };
+            poziomPunkty = new int[] { 200, 250, 250, 300 };
         }
 
         public void szukajDanychGracza()
@@ -59,8 +62,8 @@ namespace Matematyczne_Rybki
             }
             else
             {
-                string[] informacjeograczu = {rybkaGracza.ToString(), pieniadze.ToString(), rekord.ToString()};
-                this.informacjeograczu = informacjeograczu;
+                string[] danegracza = {rybkaGracza.ToString(), pieniadze.ToString(), rekord.ToString()};
+                this.informacjeograczu = danegracza;
             }
         }
 
@@ -90,7 +93,8 @@ namespace Matematyczne_Rybki
         public void zapiszDaneGracza()
         {
             string sciezka = "../../../Zasoby/Profile/" + nazwagracza + ".txt";
-            File.WriteAllLines(sciezka, informacjeograczu);
+            string[] danegracza = { rybkaGracza.ToString(), pieniadze.ToString(), rekord.ToString() };
+            File.WriteAllLines(sciezka, danegracza);
         }
 
     }
