@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -74,7 +74,7 @@ namespace Matematyczne_Rybki
             Brush zielony = new SolidBrush(Color.Green);
 
 
-            Font czcionka = new Font("Arial", 24, FontStyle.Bold);
+            Font czcionka = new Font("Cooper Black", 24, FontStyle.Bold);
 
             if (widoczne == true)
             {
@@ -105,6 +105,7 @@ namespace Matematyczne_Rybki
                 e.Graphics.DrawString(poziom.Text, czcionka, bialy, poziom.Location);
 
             }
+
         }
 
         public void zaktualizujCzas(int czasAktualny, int czasUstawiony)
